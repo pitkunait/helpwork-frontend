@@ -1,0 +1,19 @@
+$appBar-primary-color: #ffffff;
+$shadow-hoffset: 0px;
+$shadow-voffset: 0px;
+$shadow-blur: 10px;
+$shadow-spread: 0px;
+$shadow-color: rgba(0, 0, 0, 0.75);
+
+.appBar {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20%;
+  z-index: 1000;
+  background-color: $appBar-primary-color;
+  -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+  -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+  box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+}
