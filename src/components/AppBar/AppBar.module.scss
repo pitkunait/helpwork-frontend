@@ -1,12 +1,12 @@
 $appBar-primary-color: #ffffff;
 $shadow-hoffset: 0px;
 $shadow-voffset: 0px;
-$shadow-blur: 10px;
+$shadow-blur: 5px;
 $shadow-spread: 0px;
-$shadow-color: rgba(0, 0, 0, 0.75);
+$shadow-color: rgba(0, 0, 0, 0.6);
 
 .appBar {
-  height: 50px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,4 +16,8 @@ $shadow-color: rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+}
+
+.appBarLink {
+  padding: 0 10px;
 }

@@ -1,0 +1,37 @@
+@import "../../styles/colors";
+
+$breakpoint-tablet: 768px;
+
+
+.LoginCol {
+  //border-left: 1px solid;
+  //border-left-color: $color-first;
+  padding-left: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: unset;
+}
+
+
+.titleTexts {
+  color: white;
+}
+
+.titleTexts h1 {
+  font-size: 90px;
+}
+
+.titleTexts h2 {
+  font-size: 20px;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .LoginCol {
+    padding-left: 0px !important;
+    padding-bottom: 50px !important;
+    padding-top: 50px;
+    align-items: unset;
+    justify-content: center;
+
+  }
+}

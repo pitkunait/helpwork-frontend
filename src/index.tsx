@@ -8,6 +8,7 @@ import { rootReducer } from './store';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const middleware = applyMiddleware(logger);
 

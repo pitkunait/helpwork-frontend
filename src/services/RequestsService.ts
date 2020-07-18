@@ -3,13 +3,14 @@ import TokenService from './TokenService';
 
 
 const apiConfig = {
-    baseUrl: 'localhost',
+    baseUrl: 'http://localhost',
     port: '8080',
     apiPrefix: '/api/v1',
+    // apiPrefix: '',
 };
 
 const RequestsService = axios.create({
-    baseURL: `${apiConfig.baseUrl + apiConfig.apiPrefix}`,
+    baseURL: `${apiConfig.baseUrl}:${apiConfig.port}${apiConfig.apiPrefix}`,
 });
 
 RequestsService.interceptors.request.use((response) => {
