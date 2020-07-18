@@ -1,0 +1,65 @@
+import axios from 'axios';
+import TokenService from './TokenService';
+
+
+const apiConfig = {
+    baseUrl: 'localhost',
+    port: '8080',
+    apiPrefix: '/api/v1',
+};
+
+const RequestsService = axios.create({
+    baseURL: `${apiConfig.baseUrl + apiConfig.apiPrefix}`,
+});
+
+RequestsService.interceptors.request.use((response) => {
+    console.log('[SUCCESS] ' + response.url);
+    return response;
+}, (error) => {
+    if (error.response.status !== 401) {
+        return new Promise((resolve, reject) => {
+            reject(error);
+        });
+    }
+    if (error.config.url === '/token/refresh' || error.response.message === 'Account is disabled.') {
+        TokenService.instance.clear();
+        return new Promise((resolve, reject) => {
+            reject(error);
+        });
+    }
+
+    return getNewToken()
+        .then((token) => {
+            const config = error.config;
+            config.headers['Authorization'] = `Bearer ${token}`;
+            return new Promise((resolve, reject) => {
+                axios.request(config).then(response => {
+                    resolve(response);
+                }).catch((error) => {
+                    reject(error);
+                });
+            });
+        })
+        .catch((error) => {
+            Promise.reject(error);
+        });
+});
+
+const getNewToken = () => {
+    return new Promise((resolve, reject) => {
+        const refresh = TokenService.instance.getRefreshToken();
+        RequestsService
+            .post('/token/refresh', { refresh })
+            .then(response => {
+                TokenService.instance.storeToken(response.data.token);
+                TokenService.instance.storeRefreshToken(response.data.refresh_token);
+                resolve(response.data.token);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+
+export default RequestsService;
