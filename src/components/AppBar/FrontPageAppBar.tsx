@@ -7,15 +7,13 @@ import { Link } from 'react-router-dom';
 const FrontPageAppBar = () => {
     return (
         <div className={styles.appBar}>
-            <Logo/>
-            <div/>
-            <div className="d-flex">
-                <div className={styles.appBarLink}>
-                    <Link to={'#'}>About Us</Link>
-                </div>
-                <div className={styles.appBarLink}>
-                    <Link to={'#'}>About Us</Link>
-                </div>
+            <div className={styles.frontLogo}>
+                <Logo/>
+            </div>
+
+            <div className={styles.spacer}/>
+
+            <div className={styles.frontControls}>
                 <div className={styles.appBarLink}>
                     <Link to={'#'}>About Us</Link>
                 </div>

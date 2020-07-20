@@ -1,16 +1,47 @@
+@import "src/styles/breakpoints";
+@import "src/styles/colors";
 
-.jobsSearch {
+$shadow-hoffset: 0px;
+$shadow-voffset: 2px;
+$shadow-blur: 10px;
+$shadow-spread: 2px;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+
+.jobsContainer {
+  background-color: #f2f2f2;
+}
+
+
+.jobsList {
+  max-width: 600px !important;
+  min-width: 600px !important;
+  background-color: #ffffff;
+  -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+  -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+  box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+  @include bp-600px {
+    max-width: unset !important;
+    min-width: unset !important;
+  }
+}
+
+.filterPaneLeft {
+  padding-top: 20px;
   display: flex;
-  flex: 1;
   flex-direction: column;
+  align-items: flex-end;
+  @include bp-1200px {
+    display: none;
+  }
 }
 
-.contentWrapper {
-  flex: 1;
+.filterPaneRight {
+  padding-top: 20px;
   display: flex;
-  justify-content: center;
-}
-
-.filterPane {
-  //background-color: grey;
+  flex-direction: column;
+  align-items: flex-start;
+  @include bp-1200px {
+    display: none;
+  }
 }

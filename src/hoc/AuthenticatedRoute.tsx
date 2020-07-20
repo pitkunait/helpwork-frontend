@@ -1,14 +1,19 @@
-import React, { FunctionComponent } from 'react';
-import { Redirect } from 'react-router';
+import * as React from 'react';
+import { Redirect, Route, RouteProps } from 'react-router';
 
 
-interface AuthenticatedRouteProps {
-    isAuthenticated: boolean
+export interface ProtectedRouteProps extends RouteProps {
+    isAuthenticated: boolean;
+    redirectTo: string;
 }
 
 
-const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = props => {
-    return props.isAuthenticated ? <>{props.children}</> : <Redirect to="/"/>;
+export const AuthenticatedRoute: React.FC<ProtectedRouteProps> = props => {
+    if (!props.isAuthenticated) {
+        return <Redirect to={{ pathname: props.redirectTo }}/>;
+    } else {
+        return <Route {...props} />;
+    }
 };
 
 export default AuthenticatedRoute;

@@ -4,16 +4,25 @@ import Logo from './Logo/Logo';
 import SearchField from './SearchField/SearchField';
 import UserControls from './UserControls/UserControls';
 
+
 interface AppBarProps {
     onSignOut: () => void
 }
 
-const AppBar = (props:AppBarProps) => {
+
+const AppBar = (props: AppBarProps) => {
     return (
         <div className={styles.appBar}>
-            <Logo/>
+            <div className={styles.logo}>
+                <Logo/>
+            </div>
+
             <SearchField/>
-            <UserControls onSignOut={props.onSignOut}/>
+
+            <div className={styles.controls}>
+                <UserControls onSignOut={props.onSignOut}/>
+            </div>
+
         </div>
     );
 };

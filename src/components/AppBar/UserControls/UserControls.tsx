@@ -1,4 +1,6 @@
 import React from 'react';
+import styles from '../AppBar.module.scss';
+import { Link } from 'react-router-dom';
 
 interface UserControlsProps {
     onSignOut: () => void
@@ -7,9 +9,10 @@ interface UserControlsProps {
 
 const UserControls = (props:UserControlsProps) => {
     return (
-        <div>
-            Controls
-            <div onClick={props.onSignOut}>Log Out</div>
+        <div className="d-flex">
+            <div className={styles.appBarLink}>
+                <Link to={'#'} onClick={props.onSignOut}>Sign Out</Link>
+            </div>
         </div>
     );
 };

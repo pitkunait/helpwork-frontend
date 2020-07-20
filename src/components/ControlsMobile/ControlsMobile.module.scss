@@ -1,0 +1,32 @@
+@import "src/styles/breakpoints";
+
+$shadow-hoffset: 0px;
+$shadow-voffset: 0px;
+$shadow-blur: 5px;
+$shadow-spread: 0px;
+$shadow-color: rgba(0, 0, 0, 0.6);
+
+
+.controlsMobile {
+  display: none!important;
+  @include bp-medium {
+    display: flex!important;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+    -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+    box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+
+  }
+}
+
+.controlsButton {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+}

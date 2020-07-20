@@ -5,7 +5,10 @@ import styles from './JobsSearch.module.scss';
 import FilterWindow from '../../components/FilterWIndow/FilterWindow';
 import { connect } from 'react-redux';
 import { UserActions } from '../../store/actions/userActions';
-import AuthenticatedRoute from '../../hoc/AuthenticatedRoute';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import ControlsMobile from '../../components/ControlsMobile/ControlsMobile';
 
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -22,30 +25,28 @@ const mapStateToProps = (state: any) => {
 
 
 const JobsSearch = (props: any) => {
-    console.log(props)
     return (
-        <AuthenticatedRoute isAuthenticated={props.isAuthenticated}>
-            <div className={styles.jobsSearch}>
-                <AppBar onSignOut={props.userSignOut}/>
-                <div className={styles.contentWrapper}>
-
-                    <div className={styles.filterPane}>
-                        <FilterWindow/>
-                        <FilterWindow/>
-                        <FilterWindow/>
-                    </div>
-
+        <Container fluid className={"d-flex flex-column flex-grow-1 " + styles.jobsContainer}>
+            <Row>
+                <Col style={{ zIndex: 1000, padding: 0 }}>
+                    <AppBar onSignOut={props.userSignOut}/>
+                </Col>
+            </Row>
+            <Row style={{justifyContent:'center', flex:1}}>
+                <Col className={styles.filterPaneLeft}>
+                    <FilterWindow/>
+                    <FilterWindow/>
+                    <FilterWindow/>
+                </Col>
+                <Col className={styles.jobsList}>
                     <JobsList/>
-
-                    <div className={styles.filterPane}>
-                        <FilterWindow/>
-                    </div>
-
-                </div>
-
-            </div>
-        </AuthenticatedRoute>
-
+                </Col>
+                <Col className={styles.filterPaneRight}>
+                    <FilterWindow/>
+                </Col>
+            </Row>
+            <ControlsMobile/>
+        </Container>
     );
 };
 
