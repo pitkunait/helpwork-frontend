@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 services:
   nginx:
     image: nginx
@@ -6,4 +6,5 @@ services:
       - "80:80"
     volumes:
       - ./build:/usr/share/nginx/html
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
     command: [nginx, '-g', 'daemon off;']

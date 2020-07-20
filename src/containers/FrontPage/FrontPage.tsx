@@ -15,14 +15,14 @@ const FrontPage = ({ history }: any) => {
     const onRegister = (event: any, userData: any) => {
         event.preventDefault()
         console.log(userData)
-        RequestsService.post("/auth/sign-up", userData)
+        RequestsService.post("/auth/signup", userData)
     }
 
 
     const onLogin = (event: any, userData: any) => {
         event.preventDefault()
         console.log(userData)
-        RequestsService.post("/auth/sign-in", userData)
+        RequestsService.post("/auth/signin", userData)
     }
 
     return (
