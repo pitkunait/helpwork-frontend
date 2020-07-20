@@ -7,23 +7,59 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import FrontPageAppBar from '../../components/AppBar/FrontPageAppBar';
 import RequestsService from '../../services/RequestsService';
+import MainView from '../../components/FrontPage/MainView/MainView';
+import TokenService from '../../services/TokenService';
+import { connect } from 'react-redux';
+import { UserActions } from '../../store/actions/userActions';
 
-const FrontPage = ({ history }: any) => {
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        loginUser: () => dispatch({ type: UserActions.SIGNIN }),
+    };
+};
+
+const mapStateToProps = (state: any) => {
+    return {
+        isAuthenticated: state.user.isAuthenticated,
+    };
+};
+
+
+const FrontPage = (props:any) => {
 
     const [isRegister, setIsRegister] = useState(false);
+    const [authMessage, setAuthMessage] = useState('');
 
     const onRegister = (event: any, userData: any) => {
-        event.preventDefault()
-        console.log(userData)
-        RequestsService.post("/auth/signup", userData)
-    }
+        event.preventDefault();
+        RequestsService.post('/auth/signup', userData)
+            .then((res) => {
+                // register logics
+
+                props.history.push('/jobs');
+            })
+            .catch((err) => {setAuthMessage(err.response.data.message);});
+    };
 
 
     const onLogin = (event: any, userData: any) => {
-        event.preventDefault()
-        console.log(userData)
-        RequestsService.post("/auth/signin", userData)
-    }
+        event.preventDefault();
+        RequestsService
+            .post('/auth/signin', userData)
+            .then((res) => {
+                // login logics
+                TokenService.instance.storeToken(res.data.accessJwt)
+                props.loginUser()
+                props.history.push('/jobs');
+            })
+            .catch((err) => {setAuthMessage(err.response.data.message);});
+    };
+
+    const toggleRegisterLogin = () => {
+        if (authMessage) setAuthMessage('');
+        setIsRegister(!isRegister);
+    };
 
     return (
         <Container fluid className="d-flex flex-column flex-grow-1">
@@ -31,46 +67,29 @@ const FrontPage = ({ history }: any) => {
                 <Col style={{ zIndex: 1000, padding: 0 }}>
                     <FrontPageAppBar/>
                 </Col>
-
             </Row>
             <Row className="flex-grow-1">
-                <Col
-                    md
-                    lg={7}
-                    className={'d-flex justify-content-center align-items-center ' + styles.applyColorThird}
-                >
-                    <div className={styles.titleTexts}>
-                        <h1>
-                            HelpWork
-                        </h1>
-                        <h2>
-                            List jobs you want to be done.
-                        </h2>
-                        <h2>
-                            Find jobs you want to help with.
-                        </h2>
-                    </div>
-
-
+                <Col md lg={7} className={'d-flex justify-content-center align-items-center ' + styles.applyColorThird}>
+                    <MainView/>
                 </Col>
                 <Col className={styles.LoginCol}>
                     {isRegister ?
                         <RegistrationForm
                             onSubmit={onRegister}
-                            onBack={() => setIsRegister(false)}
+                            onBack={toggleRegisterLogin}
+                            message={authMessage}
                         />
                         :
                         <LoginForm
                             onSubmit={onLogin}
-                            onRegister={() => setIsRegister(true)}
+                            onRegister={toggleRegisterLogin}
+                            message={authMessage}
                         />
                     }
                 </Col>
-
             </Row>
-
         </Container>
     );
 };
 
-export default FrontPage;
+export default connect(mapStateToProps, mapDispatchToProps)(FrontPage);

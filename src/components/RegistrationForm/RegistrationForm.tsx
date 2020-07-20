@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 
 
 interface RegistrationFormProps {
-    onSubmit: (arg0: any, arg1: any) => void,
-    onBack: () => void,
-
+    onSubmit: (arg0: any, arg1: any) => void
+    onBack: () => void
+    message?: string
 }
 
 
@@ -27,6 +27,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
 
     return (
         <Form style={{ width: '300px' }} onSubmit={(e) => props.onSubmit(e, userData)}>
+            <div className="text-danger small">{props.message || null}</div>
             <Form.Group controlId="username">
                 <Form.Label>Username</Form.Label>
                 <Form.Control name="username" type="text" placeholder="Username" onChange={userDataOnChange}/>

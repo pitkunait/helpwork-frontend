@@ -1,4 +1,5 @@
 import { UserActions } from '../actions/userActions'
+import TokenService from '../../services/TokenService';
 
 const initialState: any = {
     isAuthenticated: false,
@@ -9,17 +10,20 @@ export const userReducer = (state = initialState, action: any) => {
         default:
             return state;
 
-        case UserActions.LOGIN: {
+        case UserActions.SIGNIN: {
             return {
                 ...state,
-                isAuthed: true,
+                isAuthenticated: true,
             };
         }
 
-        case UserActions.LOGOUT: {
+        case UserActions.SIGNOUT: {
+
+            TokenService.instance.clear()
+
             return {
                 ...state,
-                isAuthed: false,
+                isAuthenticated: false,
             };
         }
     }

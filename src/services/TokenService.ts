@@ -1,5 +1,5 @@
-const LOCAL_STORAGE_TOKEN = '_token';
-const LOCAL_STORAGE_REFRESH_TOKEN = '_refresh_token';
+const LOCAL_STORAGE_TOKEN = 'helpwork_token';
+const LOCAL_STORAGE_REFRESH_TOKEN = 'helpwork_refresh_token';
 
 
 export default class TokenService {

@@ -4,10 +4,10 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 
-
 interface LoginFormProps {
-    onSubmit: (arg0: any, arg1: any) => void,
-    onRegister?: () => void;
+    onSubmit: (arg0: any, arg1: any) => void
+    onRegister?: () => void
+    message?: string
 }
 
 
@@ -15,7 +15,7 @@ const LoginForm = (props: LoginFormProps) => {
 
     const [userData, setUserData] = useState({
         username: '',
-        password: ''
+        password: '',
     });
 
     const userDataOnChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +24,7 @@ const LoginForm = (props: LoginFormProps) => {
 
     return (
         <Form style={{ width: '300px' }} onSubmit={(e) => props.onSubmit(e, userData)}>
+            <div className="text-danger small">{props.message || null}</div>
             <Form.Group controlId="email">
                 <Form.Label className="text-muted"><small>Username:</small></Form.Label>
                 <Form.Control type="username" name="username" placeholder="Username" onChange={userDataOnChange}/>

@@ -52,9 +52,8 @@ const getNewToken = () => {
         RequestsService
             .post('/token/refresh', { refresh })
             .then(response => {
-                TokenService.instance.storeToken(response.data.token);
-                TokenService.instance.storeRefreshToken(response.data.refresh_token);
-                resolve(response.data.token);
+                TokenService.instance.storeToken(response.data.accessJwt);
+                resolve(response.data.accessJwt);
             })
             .catch((error) => {
                 reject(error);
