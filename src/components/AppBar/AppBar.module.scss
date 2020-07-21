@@ -37,7 +37,7 @@ $shadow-color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  @include bp-medium {
+  @include bp-1200px {
     display: none;
   }
 }
@@ -47,21 +47,25 @@ $shadow-color: rgba(0, 0, 0, 0.6);
   display: flex;
   flex: 1;
   justify-content: flex-start;
-  @include bp-medium {
+  @include bp-1200px {
     display: none;
   }
 }
 
 .frontLogo {
   @extend .logo;
-  @include bp-medium {
+  @include bp-1200px {
     display: flex;
   }
 }
 
 .frontControls {
   @extend .controls;
-  @include bp-medium {
+  @include bp-1200px {
     display: flex;
   }
+}
+
+.controlsButton {
+  padding: 0 5px;
 }

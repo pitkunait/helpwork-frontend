@@ -9,7 +9,9 @@ $shadow-color: rgba(0, 0, 0, 0.6);
 
 .controlsMobile {
   display: none!important;
-  @include bp-medium {
+  @include bp-1200px {
+    position: sticky;
+    bottom: 0;
     display: flex!important;
     height: 60px;
     padding: 0;

@@ -1,21 +1,21 @@
 import React from 'react';
 import styles from './FilterWindow.module.scss'
+import Divider from '@material-ui/core/Divider';
+import FilterParameter from './FilterParameter/FilterParameter';
 
-const FilterWindow = () => {
+interface FilterWindowProps {
+    filterName: string
+    filterParameters: any[] // FIXME: list of params to choose?
+    onFilterApply?: any // FIXME: once filter is ready pass function that will handle filter
+}
+
+const FilterWindow = (props: FilterWindowProps) => {
     return (
         <div className={styles.filterWindow}>
-            bla bla bla
-            <div>
-                blja lbja
-            </div>
-            <div>
-                blja lbja
-            </div>
-            <div>
-                blja lbja
-            </div>
-            <div>
-                blja lbja
+            {props.filterName}
+            <Divider />
+            <div className={styles.filterBody}>
+                {props.filterParameters.map((item, index) => <FilterParameter key={index} name={item.name} id={item.id}/>)}
             </div>
         </div>
     );

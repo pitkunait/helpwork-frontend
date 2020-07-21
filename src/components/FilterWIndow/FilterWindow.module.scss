@@ -6,13 +6,19 @@ $shadow-color: rgba(0, 0, 0, 0.1);
 
 
 .filterWindow {
-  margin: 20px;
+  margin: 10px;
   width: 250px;
   padding: 10px;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 5px;
   flex: min-content;
   -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+}
+
+
+.filterBody {
+  padding: 10px 0;
+  font-size: 14px;
 }

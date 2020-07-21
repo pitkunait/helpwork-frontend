@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ControlsMobile from '../../components/ControlsMobile/ControlsMobile';
+import { filters1 } from '../../mock/filters';
 
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -27,22 +28,21 @@ const mapStateToProps = (state: any) => {
 const JobsSearch = (props: any) => {
     return (
         <Container fluid className={"d-flex flex-column flex-grow-1 " + styles.jobsContainer}>
-            <Row>
+            <Row className={styles.stickyAppBar}>
                 <Col style={{ zIndex: 1000, padding: 0 }}>
                     <AppBar onSignOut={props.userSignOut}/>
                 </Col>
             </Row>
             <Row style={{justifyContent:'center', flex:1}}>
                 <Col className={styles.filterPaneLeft}>
-                    <FilterWindow/>
-                    <FilterWindow/>
-                    <FilterWindow/>
+                    <FilterWindow filterName={"Select category"} filterParameters={filters1}/>
+                    <FilterWindow filterName={"Filters"} filterParameters={filters1}/>
                 </Col>
                 <Col className={styles.jobsList}>
                     <JobsList/>
                 </Col>
                 <Col className={styles.filterPaneRight}>
-                    <FilterWindow/>
+                    {/*<FilterWindow/>*/}
                 </Col>
             </Row>
             <ControlsMobile/>
