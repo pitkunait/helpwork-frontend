@@ -6,60 +6,20 @@ import styles from './FrontPage.module.scss';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import FrontPageAppBar from '../../components/AppBar/FrontPageAppBar';
-import RequestsService from '../../services/RequestsService';
-import MainView from '../../components/FrontPage/MainView/MainView';
-import TokenService from '../../services/TokenService';
-import { connect } from 'react-redux';
-import { UserActions } from '../../store/actions/userActions';
+import MainView from '../../components/MainView/MainView';
+import { useDispatch, useSelector } from 'react-redux';
+import { userUnsetAuthMessage } from '../../store/actions/UserActions';
 
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        loginUser: () => dispatch({ type: UserActions.SIGNIN }),
-    };
-};
-
-const mapStateToProps = (state: any) => {
-    return {
-        isAuthenticated: state.user.isAuthenticated,
-    };
-};
-
-
-const FrontPage = (props:any) => {
-
+const FrontPage = () => {
+    const dispatch = useDispatch()
     const [isRegister, setIsRegister] = useState(false);
-    const [authMessage, setAuthMessage] = useState('');
-
-    const onRegister = (event: any, userData: any) => {
-        event.preventDefault();
-        RequestsService.post('/auth/signup', userData)
-            .then((res) => {
-                // register logics
-
-                props.history.push('/jobs');
-            })
-            .catch((err) => {setAuthMessage(err.response.data.message);});
-    };
-
-
-    const onLogin = (event: any, userData: any) => {
-        event.preventDefault();
-        RequestsService
-            .post('/auth/signin', userData)
-            .then((res) => {
-                // login logics
-                TokenService.instance.storeToken(res.data.accessJwt)
-                props.loginUser()
-                props.history.push('/jobs');
-            })
-            .catch((err) => {setAuthMessage(err.response.data.message);});
-    };
-
+    const authMessage = useSelector((state:any) => state.user.authMessage);
     const toggleRegisterLogin = () => {
-        if (authMessage) setAuthMessage('');
+        authMessage && dispatch(userUnsetAuthMessage())
         setIsRegister(!isRegister);
     };
+
 
     return (
         <Container fluid className="d-flex flex-column flex-grow-1">
@@ -73,23 +33,11 @@ const FrontPage = (props:any) => {
                     <MainView/>
                 </Col>
                 <Col className={styles.LoginCol}>
-                    {isRegister ?
-                        <RegistrationForm
-                            onSubmit={onRegister}
-                            onBack={toggleRegisterLogin}
-                            message={authMessage}
-                        />
-                        :
-                        <LoginForm
-                            onSubmit={onLogin}
-                            onRegister={toggleRegisterLogin}
-                            message={authMessage}
-                        />
-                    }
+                    {isRegister ? <RegistrationForm onBack={toggleRegisterLogin}/> : <LoginForm onRegister={toggleRegisterLogin}/>}
                 </Col>
             </Row>
         </Container>
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FrontPage);
+export default FrontPage;

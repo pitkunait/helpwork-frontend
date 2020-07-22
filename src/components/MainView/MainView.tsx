@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../containers/FrontPage/FrontPage.module.scss';
+import styles from '../../containers/FrontPage/FrontPage.module.scss';
 
 
 

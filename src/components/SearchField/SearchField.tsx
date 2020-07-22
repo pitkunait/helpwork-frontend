@@ -5,8 +5,6 @@ import styles from './SearchField.module.scss';
 const SearchField = () => {
     return (
         <div className={styles.searchField}>
-
-
             <div className={styles.searchInputContainer}>
 
                 <svg viewBox="0 0 33 33" className={styles.searchIcon}>
