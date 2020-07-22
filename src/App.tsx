@@ -5,7 +5,7 @@ import { userGetSession } from './store/actions/UserActions';
 import { WholePageSpinner } from './components/Spinner/Spinner';
 import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 import FrontPage from './containers/FrontPage/FrontPage';
-import JobsSearch from './containers/JobsSearch/JobsSearch';
+import JobsSearch from './containers/JobsPage/JobsPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';

@@ -27,9 +27,3 @@ code {
 *:focus {
   outline: none!important;
 }
-
-
-.App {
-  flex: 1;
-  display: flex;
-}

@@ -22,6 +22,12 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   font-weight: bold;
 }
 
+.postDescription {
+  white-space: pre-line;
+  padding-top:20px;
+  padding-bottom: 20px;
+  word-wrap: break-word
+}
 
 .postDetails {
   text-align: right;
