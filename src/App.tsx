@@ -1,26 +1,47 @@
-import React from 'react';
-import './App.css';
-import JobsSearch from './containers/JobsSearch/JobsSearch';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { userGetSession } from './store/actions/UserActions';
+import { WholePageSpinner } from './components/Spinner/Spinner';
+import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 import FrontPage from './containers/FrontPage/FrontPage';
+import JobsSearch from './containers/JobsSearch/JobsSearch';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 
-function App() {
+const App = (props: any) => {
+    const { isAuthenticated, isAuthenticating, userGetSession } = props;
+    useEffect(() => { userGetSession(); }, [userGetSession]);
 
-    return (
-        <Router>
-            <div className="App">
+    if (!isAuthenticating)
+        return (
+            <Router>
                 <Switch>
-                    <Route path="/jobs" component={JobsSearch}/>
-                    <Route path="/" component={FrontPage}/>
+                    <AuthenticatedRoute path='/jobs'
+                                        isAuthenticated={isAuthenticated}
+                                        redirectTo={'/'}
+                                        component={JobsSearch}/>
+                    <AuthenticatedRoute path='/'
+                                        isAuthenticated={!isAuthenticated}
+                                        redirectTo={'/jobs'}
+                                        component={FrontPage}/>
                 </Switch>
-            </div>
-        </Router>
-    );
-}
+            </Router>
+        );
 
-export default App;
+    return <WholePageSpinner/>;
+};
+
+
+const mapDispatchToProps = { userGetSession };
+
+const mapStateToProps = (state: any) => {
+    return {
+        isAuthenticated: state.user.isAuthenticated,
+        isAuthenticating: state.user.isAuthenticating,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

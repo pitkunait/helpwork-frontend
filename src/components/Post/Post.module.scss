@@ -1,24 +1,33 @@
+
 $shadow-hoffset: 1px;
 $shadow-voffset: 1px;
 $shadow-blur: 5px;
-$shadow-spread: 1px;
+$shadow-spread: 2px;
 $shadow-color: rgba(0, 0, 0, 0.1);
 
-
-.filterWindow {
-  margin: 10px;
-  width: 250px;
-  padding: 10px;
+.post {
+  width: 100%;
   background-color: #ffffff;
+  margin-top: 20px;
   border-radius: 5px;
-  flex: min-content;
+  padding: 20px;
+
   -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
 }
 
 
-.filterBody {
-  padding: 10px 0;
-  font-size: 14px;
+.postTitle {
+  font-weight: bold;
+}
+
+
+.postDetails {
+  text-align: right;
+  font-size: 10px;
+}
+
+.postTime {
+  font-size: 12px;
 }

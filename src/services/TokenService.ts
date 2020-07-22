@@ -1,5 +1,5 @@
-const LOCAL_STORAGE_TOKEN = '_token';
-const LOCAL_STORAGE_REFRESH_TOKEN = '_refresh_token';
+const LOCAL_STORAGE_TOKEN = 'helpwork_token';
+const LOCAL_STORAGE_REFRESH_TOKEN = 'helpwork_refresh_token';
 
 
 export default class TokenService {
@@ -13,17 +13,21 @@ export default class TokenService {
         return TokenService._instance;
     }
 
-    public isAuthenticated() {
-        return this.getToken() !== null;
+    public hasAccessToken () {
+        return this.getAccessToken() !== null;
+    }
+
+    public hasRefreshToken() {
+        return this.getRefreshToken() !== null;
     }
 
     public getAuthentication() {
         return {
-            headers: { 'Authorization': 'Bearer ' + this.getToken() },
+            headers: { 'Authorization': 'Bearer ' + this.getAccessToken() },
         };
     }
 
-    public storeToken(token: string) {
+    public storeAccessToken(token: string) {
         localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
     }
 
@@ -40,8 +44,7 @@ export default class TokenService {
         return localStorage.getItem(LOCAL_STORAGE_REFRESH_TOKEN);
     }
 
-    public getToken() {
+    public getAccessToken() {
         return localStorage.getItem(LOCAL_STORAGE_TOKEN);
     }
-
 }

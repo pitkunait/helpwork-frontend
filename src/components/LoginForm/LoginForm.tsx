@@ -1,37 +1,45 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { userSignIn } from '../../store/actions/UserActions';
+import { SignInData } from '../../utils/types/User';
 
 
 interface LoginFormProps {
-    onSubmit: (arg0: any, arg1: any) => void,
-    onRegister?: () => void;
+    authMessage: string
+    userSignIn: (signInData:SignInData) => void
+    onRegister?: () => void
 }
 
 
 const LoginForm = (props: LoginFormProps) => {
 
-    const [userData, setUserData] = useState({
+    const [userData, setUserData] = useState<SignInData>({
         username: '',
-        password: ''
+        password: '',
     });
 
     const userDataOnChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [event.target.name]: event.target.value });
     };
 
+    const signIn = (e:FormEvent<HTMLElement>) => {
+        e.preventDefault()
+        props.userSignIn(userData)
+    }
+
     return (
-        <Form style={{ width: '300px' }} onSubmit={(e) => props.onSubmit(e, userData)}>
+        <Form style={{ width: '300px' }} onSubmit={signIn}>
+            <div className="text-danger small">{props.authMessage}</div>
             <Form.Group controlId="email">
                 <Form.Label className="text-muted"><small>Username:</small></Form.Label>
-                <Form.Control type="username" name="username" placeholder="Username" onChange={userDataOnChange}/>
+                <Form.Control type="text" name="username" placeholder="Username" autoComplete="nickname" onChange={userDataOnChange}/>
             </Form.Group>
-
             <Form.Group controlId="password">
                 <Form.Label className="text-muted"><small>Password:</small></Form.Label>
-                <Form.Control type="password" name="password" placeholder="Password" onChange={userDataOnChange}/>
+                <Form.Control type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={userDataOnChange}/>
                 <Form.Text className="text-muted text-right">
                     <Link to="#">Forgot password?</Link>
                 </Form.Text>
@@ -53,5 +61,15 @@ const LoginForm = (props: LoginFormProps) => {
         </Form>
     );
 };
+const mapDispatchToProps = {
+    userSignIn,
+};
 
-export default LoginForm;
+const mapStateToProps = (state: any) => {
+    return {
+        authMessage: state.user.authMessage,
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

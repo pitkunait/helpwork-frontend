@@ -1,3 +1,5 @@
+@import "src/utils/styles/breakpoints";
+
 $appBar-primary-color: #ffffff;
 $shadow-hoffset: 0px;
 $shadow-voffset: 0px;
@@ -8,9 +10,8 @@ $shadow-color: rgba(0, 0, 0, 0.6);
 .appBar {
   height: 70px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 0 20%;
   z-index: 1000;
   background-color: $appBar-primary-color;
   -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
@@ -18,6 +19,53 @@ $shadow-color: rgba(0, 0, 0, 0.6);
   box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
 }
 
+.spacer {
+  padding: 0 10px;
+  width: 600px;
+  @include bp-medium {
+    width: unset;
+    flex: 1;
+  }
+}
+
 .appBarLink {
   padding: 0 10px;
+}
+
+.logo {
+  margin-right: 50px;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  @include bp-1200px {
+    display: none;
+  }
+}
+
+.controls {
+  margin-left: 50px;
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  @include bp-1200px {
+    display: none;
+  }
+}
+
+.frontLogo {
+  @extend .logo;
+  @include bp-1200px {
+    display: flex;
+  }
+}
+
+.frontControls {
+  @extend .controls;
+  @include bp-1200px {
+    display: flex;
+  }
+}
+
+.controlsButton {
+  padding: 0 5px;
 }
