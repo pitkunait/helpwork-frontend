@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import ControlsMobile from '../../components/ControlsMobile/ControlsMobile';
+import UserControlsMobile from '../../components/UserControlsMobile/UserControlsMobile';
 
 import { filters1 } from '../../utils/mock/filters';
 import NewPost from '../../components/NewPost/NewPost';
@@ -21,11 +21,8 @@ interface JobsPageProps {
 const JobsPage = (props: JobsPageProps) => {
     return (
         <Container fluid className={'d-flex flex-column flex-grow-1 ' + styles.jobsContainer}>
-            <Row className={styles.stickyAppBar}>
-                <Col style={{ zIndex: 1000, padding: 0 }}>
-                    <AppBar/>
-                </Col>
-            </Row>
+            <AppBar/>
+
             <Row style={{ justifyContent: 'center', flex: 1 }}>
                 <Col className={styles.filterPaneLeft}>
                     {!props.creatingNewPost &&
@@ -34,15 +31,18 @@ const JobsPage = (props: JobsPageProps) => {
                         <FilterWindow filterName={'Filters'} filterParameters={filters1}/>
                     </>
                     }
-
                 </Col>
                 <Col className={styles.jobsList}>
-                    {props.creatingNewPost ? <NewPost/> : <JobsList/>}
+                    <div style={{padding:"20px"}}>
+                        {props.creatingNewPost ? <NewPost/> : <JobsList/>}
+                    </div>
+
                 </Col>
                 <Col className={styles.filterPaneRight}>
                 </Col>
             </Row>
-            <ControlsMobile/>
+
+            <UserControlsMobile/>
         </Container>
     );
 };

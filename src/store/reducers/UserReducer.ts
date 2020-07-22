@@ -8,6 +8,7 @@ interface UserState {
     isAuthenticating: boolean
     user: User | null
     authMessage: string
+    userData: any
 }
 
 
@@ -15,7 +16,8 @@ const initialState: UserState = {
     isAuthenticated: false,
     isAuthenticating: true,
     user: null,
-    authMessage: ''
+    authMessage: '',
+    userData: null
 };
 
 export const userReducer: Reducer<UserState> = (state = initialState, action) => {
@@ -32,5 +34,7 @@ export const userReducer: Reducer<UserState> = (state = initialState, action) =>
             return { ...state, authMessage: action.payload };
         case UserActionType.UNSET_AUTH_MESSAGE:
             return { ...state, authMessage: '' };
+        case UserActionType.FETCH_MY_USER_DATA:
+            return { ...state, userData: action.payload};
     }
 };

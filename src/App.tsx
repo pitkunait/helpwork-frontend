@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Router, Switch,  } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userGetSession } from './store/actions/UserActions';
 import { WholePageSpinner } from './components/Spinner/Spinner';
 import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 import FrontPage from './containers/FrontPage/FrontPage';
 import JobsSearch from './containers/JobsPage/JobsPage';
+import { createBrowserHistory as createHistory } from "history";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ProfilePage from './containers/ProfilePage/ProfilePage';
 
+export const history = createHistory()
 
 const App = (props: any) => {
     const { isAuthenticated, isAuthenticating, userGetSession } = props;
@@ -17,12 +20,16 @@ const App = (props: any) => {
 
     if (!isAuthenticating)
         return (
-            <Router>
+            <Router history={history}>
                 <Switch>
                     <AuthenticatedRoute path='/jobs'
                                         isAuthenticated={isAuthenticated}
                                         redirectTo={'/'}
                                         component={JobsSearch}/>
+                    <AuthenticatedRoute path='/profile'
+                                        isAuthenticated={isAuthenticated}
+                                        redirectTo={'/'}
+                                        component={ProfilePage}/>
                     <AuthenticatedRoute path='/'
                                         isAuthenticated={!isAuthenticated}
                                         redirectTo={'/jobs'}

@@ -3,19 +3,34 @@ import styles from './AppBar.module.scss';
 import Logo from '../Logo/Logo';
 import SearchField from '../SearchField/SearchField';
 import UserControls from '../UserControls/UserControls';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 
-const AppBar = () => {
+interface AppBarProps {
+    displaySearch?: boolean
+}
+
+
+const AppBar = (props:AppBarProps) => {
+
+    let displaySearch = true
+    if (props.displaySearch === false) displaySearch = false
+
     return (
-        <div className={styles.appBar}>
-            <div className={styles.logo}>
+        <Row className={styles.appBar}>
+            <Col className={styles.logo}>
                 <Logo/>
-            </div>
-            <SearchField/>
-            <div className={styles.controls}>
+            </Col>
+            <Col className={styles.searchField}>
+                {displaySearch && <SearchField/>}
+            </Col>
+            <Col className={styles.controls}>
                 <UserControls/>
-            </div>
-        </div>
+            </Col>
+        </Row>
+
+
     );
 };
 

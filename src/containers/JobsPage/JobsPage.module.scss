@@ -12,16 +12,13 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   background-color: #f2f2f2;
 }
 
-.stickyAppBar {
-  z-index: 1000;
-  position: sticky;
-  top: 0;
-}
-
 
 .jobsList {
-  padding: 20px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 20px;
   flex: 1;
+  padding: 0!important;
   max-width: 600px !important;
   min-width: 600px !important;
   background-color: #ffffff;
@@ -31,6 +28,7 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   @include bp-600px {
     max-width: unset !important;
     min-width: unset !important;
+    margin-top: 0;
   }
 }
 
