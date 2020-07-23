@@ -1,7 +1,7 @@
 import { PostsActionType } from '../types/PostsActionType';
 import RequestsService from '../../services/RequestsService';
 import TokenService from '../../services/TokenService';
-import { IPost } from '../../utils/types/Posts';
+import DateTimeService from '../../services/DateTimeService';
 
 
 export const postsStartCreatingNewPost = () => {
@@ -19,7 +19,7 @@ export const postsCancelCreatingNewPost = () => {
 export const postsSubmitNewPost = (postData: any) => {
     return async(dispatch: any) => {
         try {
-            await RequestsService.post('/posts/new', postData, TokenService.instance.getAuthentication() );
+            await RequestsService.post('/posts/new', postData, TokenService.instance.getAuthentication());
             dispatch({ type: PostsActionType.SUBMIT_NEW_POST });
             dispatch(postsCancelCreatingNewPost());
         } catch ( e ) {
@@ -31,16 +31,30 @@ export const postsSubmitNewPost = (postData: any) => {
 export const postsFetchPosts = () => {
     return async(dispatch: any) => {
         try {
-            const { data } = await RequestsService.get('/posts/posts', TokenService.instance.getAuthentication());
-
-            let posts = data.posts
-                .map((item:IPost) => {return { ...item, createdAt: new Date(item.createdAt)} as IPost})
-                .sort((a:IPost,b:IPost)=>b.createdAt.getTime()-a.createdAt.getTime());
-
-            dispatch({ type: PostsActionType.FETCH_POSTS, payload:posts });
+            const { data } = await RequestsService.get('/posts/list', TokenService.instance.getAuthentication());
+            // FIXME: Should be sorted on backend
+            let posts = DateTimeService.instance.sortPosts(data.posts);
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: posts });
         } catch ( e ) {
-            console.log("erorr fetching posts")
+            console.log('erorr fetching posts');
         }
     };
-}
+};
 
+
+export const postsSearchPostsByTitle = (title: string) => {
+    return async(dispatch: any) => {
+        try {
+            let params: any = TokenService.instance.getAuthentication();
+            params.params = { title };
+
+            console.log(params);
+            const { data } = await RequestsService.get('/posts/search', params);
+            // FIXME: Should be sorted on backend
+            let posts = DateTimeService.instance.sortPosts(data.posts);
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: posts });
+        } catch ( e ) {
+            console.log('erorr fetching posts');
+        }
+    };
+};

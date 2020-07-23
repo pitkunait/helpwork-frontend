@@ -12,10 +12,10 @@ interface AppBarProps {
 }
 
 
-const AppBar = (props:AppBarProps) => {
+const AppBar = (props: AppBarProps) => {
 
-    let displaySearch = true
-    if (props.displaySearch === false) displaySearch = false
+    let displaySearch = true;
+    if (props.displaySearch === false) displaySearch = false;
 
     return (
         <Row className={styles.appBar}>

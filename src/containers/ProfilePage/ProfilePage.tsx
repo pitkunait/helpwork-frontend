@@ -1,35 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import styles from '../JobsPage/JobsPage.module.scss';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import AppBar from '../../components/AppBar/AppBar';
-import UserControlsMobile from '../../components/UserControlsMobile/UserControlsMobile';
+import { Route, Switch, useHistory, useLocation } from 'react-router';
+import { connect } from 'react-redux';
 
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { connect } from 'react-redux';
+
+import styles from '../JobsPage/JobsPage.module.scss';
+import AppBar from '../../components/AppBar/AppBar';
+import UserControlsMobile from '../../components/UserControlsMobile/UserControlsMobile';
+import UserDetails from '../../components/UserDetails/UserDetails';
+import UserJobsDetails from '../../components/UserJobsDetails/UserJobsDetails';
 import { userFetchProfileDetails, userSignOut } from '../../store/actions/UserActions';
-import Button from 'react-bootstrap/Button';
 
 
-function TabPanel(props: any) {
-    const { children, value, index, ...other } = props;
-    return (
-        <div hidden={value !== index} {...other}>
-            {value === index && (<div>{children}</div>)}
-        </div>
-    );
-}
+const locations = new Map();
+locations.set('/profile', 0);
+locations.set('/profile/myjobs', 1);
+locations.set('/profile/other', 2);
+
 
 const ProfilePage = (props: any) => {
 
-    const [tab, setTab] = useState(0);
-    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setTab(newValue);
-    };
+    const location = useLocation();
+    const history = useHistory();
+    const [tab, setTab] = useState(locations.get(location.pathname) || 0);
+    const { userFetchProfileDetails } = props;
+    useEffect(() => {userFetchProfileDetails();}, [userFetchProfileDetails]);
 
-    useEffect(() => {props.userFetchProfileDetails();}, []);
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => setTab(newValue);
 
     return (
         <Container fluid className={'d-flex flex-column flex-grow-1 ' + styles.jobsContainer}>
@@ -41,29 +42,29 @@ const ProfilePage = (props: any) => {
                           variant="fullWidth"
                           indicatorColor="primary"
                     >
-                        <Tab label="Details"/>
-                        <Tab label="My jobs"/>
-                        <Tab label="Eshe chenit"/>
+                        <Tab label="Details" onClick={() => {history.push('/profile');}}/>
+                        <Tab label="My jobs" onClick={() => {history.push('/profile/myjobs');}}/>
+                        <Tab label="Eshe chenit" onClick={() => {history.push('/profile/other');}}/>
                     </Tabs>
-                    <TabPanel value={tab} index={0}>
-                        <div className="d-flex flex-column align-items-center">
-                            {props.userData && <div>
-                                <div>Username: {props.userData.username}</div>
-                                <div>First name: {props.userData.firstName}</div>
-                                <div>Last name: {props.userData.lastName}</div>
-                                <div>Email: {props.userData.email}</div>
-                            </div>}
-                            <Button variant="outline-danger" className="btn-block w-50" onClick={props.userSignOut}>Sign
-                                Out</Button>
-                        </div>
-                    </TabPanel>
 
+                    <Switch>
+
+                        <Route path={'/profile'} exact>
+                            <UserDetails userData={props.userData} userSignOut={props.userSignOut}/>
+                        </Route>
+
+                        <Route path={'/profile/myjobs'} exact>
+                            <UserJobsDetails userData={props.userData}/>
+                        </Route>
+
+                    </Switch>
                 </Col>
             </Row>
             <UserControlsMobile/>
         </Container>
     );
 };
+
 const mapDispatchToProps = {
     userSignOut,
     userFetchProfileDetails,
@@ -71,9 +72,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: any) => {
     return {
-        userData: state.user.userData,
+        userData: state.user.user,
     };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

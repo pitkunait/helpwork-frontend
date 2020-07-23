@@ -1,13 +1,23 @@
-export default class ParserService {
+import { IPost } from '../utils/types/Posts';
 
-    private static _instance: ParserService | null = null;
 
-    static get instance(): ParserService {
-        if (!ParserService._instance) {
-            ParserService._instance = new ParserService();
+export default class DateTimeService {
+
+    private static _instance: DateTimeService | null = null;
+
+    static get instance(): DateTimeService {
+        if (!DateTimeService._instance) {
+            DateTimeService._instance = new DateTimeService();
         }
-        return ParserService._instance;
+        return DateTimeService._instance;
     }
+
+
+    public sortPosts = (posts: any[]): IPost[] => {
+        return posts
+            .map((item: IPost) => {return { ...item, createdAt: new Date(item.createdAt) } as IPost;})
+            .sort((a: IPost, b: IPost) => b.createdAt.getTime() - a.createdAt.getTime());
+    };
 
     public timeSince = (date: Date) => {
 

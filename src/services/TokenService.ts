@@ -13,7 +13,7 @@ export default class TokenService {
         return TokenService._instance;
     }
 
-    public hasAccessToken () {
+    public hasAccessToken() {
         return this.getAccessToken() !== null;
     }
 

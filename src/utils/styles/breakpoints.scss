@@ -1,50 +1,43 @@
 @mixin bp-small {
-  @media only screen
-  and (max-width : 480px) {
+  @media only screen and (max-width: 480px) {
     @content
   }
 }
 
 @mixin bp-600px {
-  @media only screen
-  and (max-width: 600px) {
+  @media only screen and (max-width: 600px) {
     @content;
   }
 }
 
 @mixin bp-768px {
-  @media only screen
-  and (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     @content;
   }
 }
 
 @mixin bp-medium {
-  @media only screen
-  and (max-width: 1024px) {
+  @media only screen and (max-width: 1024px) {
     @content;
   }
 }
 
 @mixin bp-1200px {
-  @media only screen
-  and (max-width: 1200px) {
+  @media only screen and (max-width: 1200px) {
     @content;
   }
 }
 
 
 @mixin bp-large {
-  @media only screen
-  and (min-width: 1224px) {
+  @media only screen and (min-width: 1224px) {
     @content
   }
 }
 
 
 @mixin bp-x-large {
-  @media only screen
-  and (min-width: 1824px) {
+  @media only screen and (min-width: 1824px) {
     @content
   }
 }

@@ -9,7 +9,7 @@ import { SignInData } from '../../utils/types/User';
 
 interface LoginFormProps {
     authMessage: string
-    userSignIn: (signInData:SignInData) => void
+    userSignIn: (signInData: SignInData) => void
     onRegister?: () => void
 }
 
@@ -25,21 +25,23 @@ const LoginForm = (props: LoginFormProps) => {
         setUserData({ ...userData, [event.target.name]: event.target.value });
     };
 
-    const signIn = (e:FormEvent<HTMLElement>) => {
-        e.preventDefault()
-        props.userSignIn(userData)
-    }
+    const signIn = (e: FormEvent<HTMLElement>) => {
+        e.preventDefault();
+        props.userSignIn(userData);
+    };
 
     return (
         <Form style={{ width: '300px' }} onSubmit={signIn}>
             <div className="text-danger small">{props.authMessage}</div>
             <Form.Group controlId="email">
                 <Form.Label className="text-muted"><small>Username:</small></Form.Label>
-                <Form.Control type="text" name="username" placeholder="Username" autoComplete="nickname" onChange={userDataOnChange}/>
+                <Form.Control type="text" name="username" placeholder="Username" autoComplete="nickname"
+                              onChange={userDataOnChange}/>
             </Form.Group>
             <Form.Group controlId="password">
                 <Form.Label className="text-muted"><small>Password:</small></Form.Label>
-                <Form.Control type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={userDataOnChange}/>
+                <Form.Control type="password" name="password" placeholder="Password" autoComplete="current-password"
+                              onChange={userDataOnChange}/>
                 <Form.Text className="text-muted text-right">
                     <Link to="#">Forgot password?</Link>
                 </Form.Text>

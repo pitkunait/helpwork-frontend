@@ -3,14 +3,13 @@ import RequestsService from '../../services/RequestsService';
 import TokenService from '../../services/TokenService';
 import { SignInData, SignUpData } from '../../utils/types/User';
 import { history } from '../../App';
+import DateTimeService from '../../services/DateTimeService';
 
 
 export const userSignIn = (signInData: SignInData) => {
     return async(dispatch: any, getState: any) => {
         try {
-
             const { data } = await RequestsService.post('/auth/signin', signInData);
-
             TokenService.instance.storeAccessToken(data.accessJwt);
             TokenService.instance.storeRefreshToken(data.refreshJwt);
             getState().user.authMessage && dispatch(userUnsetAuthMessage());
@@ -94,7 +93,9 @@ export const userFetchProfileDetails = () => {
                 '/user/me',
                 TokenService.instance.getAuthentication(),
             );
-            dispatch({ type: UserActionType.FETCH_MY_USER_DATA, payload:data });
+            // FIXME: should be sorted on backend
+            data.posts = DateTimeService.instance.sortPosts(data.posts);
+            dispatch({ type: UserActionType.FETCH_MY_USER_DATA, payload: data });
         } catch ( e ) {
             throw e;
         }

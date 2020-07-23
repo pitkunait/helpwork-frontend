@@ -1,2 +1,2 @@
 export * from './RequestsService';
-export * from './TokenService'
+export * from './TokenService';

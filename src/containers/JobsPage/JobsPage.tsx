@@ -33,7 +33,7 @@ const JobsPage = (props: JobsPageProps) => {
                     }
                 </Col>
                 <Col className={styles.jobsList}>
-                    <div style={{padding:"20px"}}>
+                    <div style={{ padding: '20px' }}>
                         {props.creatingNewPost ? <NewPost/> : <JobsList/>}
                     </div>
 
@@ -47,9 +47,7 @@ const JobsPage = (props: JobsPageProps) => {
     );
 };
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = {};
 
 const mapStateToProps = (state: any) => {
     return {

@@ -8,9 +8,10 @@ interface PostState {
     posts: IPost[]
 }
 
+
 const initialState: PostState = {
     creatingNewPost: false,
-    posts: []
+    posts: [],
 };
 
 export const postsReducer: Reducer<PostState> = (state = initialState, action: IAction) => {
@@ -18,12 +19,12 @@ export const postsReducer: Reducer<PostState> = (state = initialState, action: I
         default:
             return state;
         case PostsActionType.FETCH_POSTS:
-            return {...state, posts:action.payload}
+            return { ...state, posts: action.payload };
         case PostsActionType.START_CREATING_NEW_POST:
-            return {...state, creatingNewPost:true}
+            return { ...state, creatingNewPost: true };
         case PostsActionType.CANCEL_CREATING_NEW_POST:
-            return {...state, creatingNewPost:false}
+            return { ...state, creatingNewPost: false };
         case PostsActionType.SUBMIT_NEW_POST:
-            return {...state}
+            return { ...state };
     }
 };

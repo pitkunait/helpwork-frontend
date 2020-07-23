@@ -8,11 +8,11 @@ $shadow-color: rgba(0, 0, 0, 0.6);
 
 
 .controlsMobile {
-  display: none!important;
+  display: none !important;
   @include bp-1200px {
     position: sticky;
     bottom: 0;
-    display: flex!important;
+    display: flex !important;
     height: 60px;
     padding: 0;
     margin: 0;
