@@ -1,22 +1,26 @@
 import React from 'react';
-import styles from './Post.module.scss'
+import styles from './Post.module.scss';
 import Divider from '@material-ui/core/Divider';
+import { IPost } from '../../utils/types/Posts';
+import DateTimeService from '../../services/DateTimeService';
 
-const Post = () => {
+
+interface PostProps extends IPost {
+
+}
+
+
+const Post = (props: PostProps) => {
     return (
         <div className={styles.post}>
-
-            <div style={{display:'flex', justifyContent:'space-between'}}>
-                <div className={styles.postTitle}>Title</div>
-                <div className={styles.postTime}>54 min ago</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={styles.postTitle}>{props.title}</div>
+                <div className={styles.postTime}>{DateTimeService.instance.timeSince(props.createdAt)}</div>
             </div>
             <Divider/>
-
-            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et fermentum urna. Nulla nisl orci, sodales vel ligula et, semper porta nulla. Aenean dapibus, erat et molestie convallis, dui augue </div>
-
-            <div>Pictures</div>
-
-            <div className={styles.postDetails}>details hujails</div>
+            <div className={styles.postDescription}>{props.description}</div>
+            {/*<div>Pictures</div>*/}
+            {/*<div className={styles.postDetails}>details hujails</div>*/}
         </div>
     );
 };

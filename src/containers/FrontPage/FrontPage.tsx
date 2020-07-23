@@ -12,11 +12,11 @@ import { userUnsetAuthMessage } from '../../store/actions/UserActions';
 
 
 const FrontPage = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [isRegister, setIsRegister] = useState(false);
-    const authMessage = useSelector((state:any) => state.user.authMessage);
+    const authMessage = useSelector((state: any) => state.user.authMessage);
     const toggleRegisterLogin = () => {
-        authMessage && dispatch(userUnsetAuthMessage())
+        authMessage && dispatch(userUnsetAuthMessage());
         setIsRegister(!isRegister);
     };
 
@@ -33,7 +33,8 @@ const FrontPage = () => {
                     <MainView/>
                 </Col>
                 <Col className={styles.LoginCol}>
-                    {isRegister ? <RegistrationForm onBack={toggleRegisterLogin}/> : <LoginForm onRegister={toggleRegisterLogin}/>}
+                    {isRegister ? <RegistrationForm onBack={toggleRegisterLogin}/> :
+                        <LoginForm onRegister={toggleRegisterLogin}/>}
                 </Col>
             </Row>
         </Container>

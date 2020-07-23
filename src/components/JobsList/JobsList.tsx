@@ -1,28 +1,43 @@
-import React from 'react';
-import styles from './JobsList.module.scss'
+import React, { useEffect } from 'react';
 import Post from '../Post/Post';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
+import { postsFetchPosts, postsStartCreatingNewPost } from '../../store/actions/PostsActions';
+import { IPost } from '../../utils/types/Posts';
 
-const JobsList = () => {
+
+interface JobsListProps {
+    posts: IPost[]
+    postsStartCreatingNewPost: () => void
+    postsFetchPosts: any
+}
+
+
+const JobsList = (props: JobsListProps) => {
+
+    const { postsFetchPosts } = props;
+    useEffect(() => {postsFetchPosts();}, [postsFetchPosts]);
+
+    const { posts, postsStartCreatingNewPost } = props;
     return (
-        <div className={styles.jobsList}>
-            <Button variant="outline-primary" className="btn-block" >Post a job</Button>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-        </div>
+        <>
+            <Button variant="outline-primary" className="btn-block" onClick={postsStartCreatingNewPost}>Post a
+                job</Button>
+            {posts.map((post, index) => <Post {...post} key={index}/>)}
+        </>
     );
 };
 
-export default JobsList;
+const mapDispatchToProps = {
+    postsStartCreatingNewPost,
+    postsFetchPosts,
+};
+
+const mapStateToProps = (state: any) => {
+    return {
+        posts: state.posts.posts,
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(JobsList);

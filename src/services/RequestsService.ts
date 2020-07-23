@@ -8,7 +8,7 @@ const apiConfig = {
     baseUrl: 'http://localhost',
     port: '8080',
     apiPrefix: '/api/v1',
-    tokenRefreshPath: '/auth/refresh-token'
+    tokenRefreshPath: '/auth/refresh-token',
 };
 
 const RequestsService = axios.create({
@@ -45,7 +45,7 @@ RequestsService.interceptors.response.use((response) => {
     if (error.config.url === apiConfig.tokenRefreshPath || error.response.message === 'Account is disabled.') {
         console.log('[API - ERROR] Could not refresh token. ' + error.config.url);
         // SignOut User (clears tokens from LocalStorage too)
-        useDispatch()(userSignOut())
+        useDispatch()(userSignOut());
         return new Promise((resolve, reject) => {
             reject(error);
         });
@@ -58,8 +58,8 @@ RequestsService.interceptors.response.use((response) => {
             config.headers['Authorization'] = `Bearer ${token}`;
             return new Promise((resolve, reject) => {
                 axios.request(config)
-                    .then(response => {resolve(response)})
-                    .catch((error) => {reject(error)})
+                    .then(response => {resolve(response);})
+                    .catch((error) => {reject(error);});
             });
         })
         .catch((error) => {

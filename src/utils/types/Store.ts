@@ -1,7 +1,7 @@
-export interface Action {
+export interface IAction {
     type: string,
     payload: any
 }
 
 
-export type Reducer<T> = (state: T, action: Action) => T
+export type Reducer<T> = (state: T, action: IAction) => T

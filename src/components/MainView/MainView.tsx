@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '../../containers/FrontPage/FrontPage.module.scss';
 
 
-
 const MainView = () => {
     return (
         <div className={styles.titleTexts}>

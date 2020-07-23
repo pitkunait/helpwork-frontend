@@ -8,31 +8,37 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import IconButton from '@material-ui/core/IconButton';
 import { userSignOut } from '../../store/actions/UserActions';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 
 
 interface UserControlsProps {
     userSignOut: () => void
 }
+
+
 const mapDispatchToProps = {
-    userSignOut
+    userSignOut,
 };
 
-const UserControls = (props:UserControlsProps) => {
+const UserControls = (props: UserControlsProps) => {
+
+    const history = useHistory();
+
     return (
         <div className="d-flex">
-            <IconButton className={styles.controlsButton}>
+            <IconButton className={styles.controlsButton} onClick={() => history.push('/jobs')}>
                 <WorkIcon/>
             </IconButton>
-            <IconButton  className={styles.controlsButton}>
+            <IconButton className={styles.controlsButton} onClick={() => history.push('/messages')}>
                 <EmailIcon/>
             </IconButton>
-            <IconButton  className={styles.controlsButton}>
+            <IconButton className={styles.controlsButton} onClick={() => history.push('/notifications')}>
                 <NotificationsIcon/>
             </IconButton>
-            <IconButton  className={styles.controlsButton}>
+            <IconButton className={styles.controlsButton} onClick={() => history.push('/profile')}>
                 <PersonIcon/>
             </IconButton>
-            <IconButton  className={styles.controlsButton} onClick={props.userSignOut}>
+            <IconButton className={styles.controlsButton} onClick={props.userSignOut}>
                 <MeetingRoomIcon/>
             </IconButton>
         </div>

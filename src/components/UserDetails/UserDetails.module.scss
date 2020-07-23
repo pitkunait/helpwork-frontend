@@ -1,0 +1,45 @@
+.detailsMailContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+.userInfoContainer {
+  width: 100%;
+  flex:1;
+  display: flex;
+  flex-direction: column;
+}
+
+.userBasicInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width:80px;
+  height: 80px;
+  border-radius: 40px;
+  background-color: #5a6674;
+}
+
+.basicInfoContainer {
+  margin-left: 20px;
+}
+
+.userName {
+  font-weight: bold;
+  color: #0E7373;
+  margin-bottom: 10px;
+}
+.userFullName {
+  color: #0E7373;
+  font-size: 14px;
+}
+.userEmail {
+  color: #5a6674;
+  font-size: 14px;
+}

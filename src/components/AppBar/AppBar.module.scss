@@ -8,15 +8,26 @@ $shadow-spread: 0px;
 $shadow-color: rgba(0, 0, 0, 0.6);
 
 .appBar {
+  z-index: 1000;
+  position: sticky;
+  top: 0;
   height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
   background-color: $appBar-primary-color;
   -webkit-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   -moz-box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
   box-shadow: $shadow-hoffset $shadow-voffset $shadow-blur $shadow-spread $shadow-color;
+}
+
+.searchField {
+  min-width: 600px !important;
+  max-width: 600px !important;
+  @include bp-medium {
+    min-width: unset !important;
+    //max-width: unset !important;
+  }
 }
 
 .spacer {
@@ -33,7 +44,7 @@ $shadow-color: rgba(0, 0, 0, 0.6);
 }
 
 .logo {
-  margin-right: 50px;
+  //background-color: #F26D85;
   display: flex;
   flex: 1;
   justify-content: flex-end;
@@ -43,7 +54,7 @@ $shadow-color: rgba(0, 0, 0, 0.6);
 }
 
 .controls {
-  margin-left: 50px;
+  //background-color: #F26D85;
   display: flex;
   flex: 1;
   justify-content: flex-start;
