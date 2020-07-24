@@ -1,7 +1,7 @@
 import { PostsActionType } from '../types/PostsActionType';
 import RequestsService from '../../services/RequestsService';
 import TokenService from '../../services/TokenService';
-import DateTimeService from '../../services/DateTimeService';
+// import DateTimeService from '../../services/DateTimeService';
 
 
 export const postsStartCreatingNewPost = () => {
@@ -19,7 +19,7 @@ export const postsCancelCreatingNewPost = () => {
 export const postsSubmitNewPost = (postData: any) => {
     return async(dispatch: any) => {
         try {
-            await RequestsService.post('/posts/new', postData, TokenService.instance.getAuthentication());
+            await RequestsService.post('/posts', postData, TokenService.instance.getAuthentication());
             dispatch({ type: PostsActionType.SUBMIT_NEW_POST });
             dispatch(postsCancelCreatingNewPost());
         } catch ( e ) {
@@ -29,12 +29,18 @@ export const postsSubmitNewPost = (postData: any) => {
 };
 
 export const postsFetchPosts = () => {
-    return async(dispatch: any) => {
+    return async(dispatch: any, getState: any) => {
         try {
-            const { data } = await RequestsService.get('/posts/list', TokenService.instance.getAuthentication());
-            // FIXME: Should be sorted on backend
-            let posts = DateTimeService.instance.sortPosts(data.posts);
-            dispatch({ type: PostsActionType.FETCH_POSTS, payload: posts });
+            const state = getState()
+            const params: any = TokenService.instance.getAuthentication();
+            const page = state.posts.currentPage
+            params.params = { page }
+            const { data } = await RequestsService.get('/posts', params);
+
+            console.log(data)
+
+            dispatch({ type: PostsActionType.SET_POSTS_PAGE, payload: { page: page + 1, hasNext: !data.posts.last } });
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: data.posts.content });
         } catch ( e ) {
             console.log('erorr fetching posts');
         }
@@ -43,16 +49,18 @@ export const postsFetchPosts = () => {
 
 
 export const postsSearchPostsByTitle = (title: string) => {
-    return async(dispatch: any) => {
+    return async(dispatch: any, getState: any) => {
         try {
+            const state = getState()
             let params: any = TokenService.instance.getAuthentication();
-            params.params = { title };
+            const page = state.posts.currentPage
+            params.params = { title, page }
+            const { data } = await RequestsService.get('/posts', params);
 
             console.log(params);
-            const { data } = await RequestsService.get('/posts/search', params);
-            // FIXME: Should be sorted on backend
-            let posts = DateTimeService.instance.sortPosts(data.posts);
-            dispatch({ type: PostsActionType.FETCH_POSTS, payload: posts });
+
+            dispatch({ type: PostsActionType.SET_POSTS_PAGE, payload: { page: page + 1, hasNext: !data.posts.last } });
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: data.posts.content });
         } catch ( e ) {
             console.log('erorr fetching posts');
         }
