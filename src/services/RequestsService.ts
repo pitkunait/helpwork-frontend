@@ -2,6 +2,7 @@ import axios from 'axios';
 import TokenService from './TokenService';
 import { useDispatch } from 'react-redux';
 import { userSignOut } from '../store/actions/UserActions';
+import store from '../store';
 
 
 const apiConfig = {
@@ -42,10 +43,10 @@ RequestsService.interceptors.response.use((response) => {
         });
     }
 
-    if (error.config.url === apiConfig.tokenRefreshPath || error.response.message === 'Account is disabled.') {
+    if (error.config.url === apiConfig.tokenRefreshPath || error.response?.message === 'Account is disabled.') {
         console.log('[API - ERROR] Could not refresh token. ' + error.config.url);
         // SignOut User (clears tokens from LocalStorage too)
-        useDispatch()(userSignOut());
+        store.dispatch(userSignOut());
         return new Promise((resolve, reject) => {
             reject(error);
         });

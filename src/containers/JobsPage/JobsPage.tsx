@@ -11,10 +11,13 @@ import UserControlsMobile from '../../components/UserControlsMobile/UserControls
 
 import { filters1 } from '../../utils/mock/filters';
 import NewPost from '../../components/NewPost/NewPost';
+import Button from 'react-bootstrap/Button';
+import { postsStartCreatingNewPost } from '../../store/actions/PostsActions';
 
 
 interface JobsPageProps {
     creatingNewPost: boolean
+    postsStartCreatingNewPost: any
 }
 
 
@@ -26,19 +29,22 @@ const JobsPage = (props: JobsPageProps) => {
             <Row style={{ justifyContent: 'center', flex: 1 }}>
                 <Col className={styles.filterPaneLeft}>
                     {!props.creatingNewPost &&
-                    <>
+                    <div className={styles.fixedContainer}>
                         <FilterWindow filterName={'Select category'} filterParameters={filters1}/>
-                        <FilterWindow filterName={'Filters'} filterParameters={filters1}/>
-                    </>
+                        <FilterWindow filterName={'Filters'} filterParameters={filters1} renderComponent={false}/>
+                    </div>
                     }
                 </Col>
                 <Col className={styles.jobsList}>
-                    <div style={{ padding: '20px' }}>
-                        {props.creatingNewPost ? <NewPost/> : <JobsList/>}
-                    </div>
-
+                    {props.creatingNewPost ? <NewPost/> : <JobsList/>}
                 </Col>
                 <Col className={styles.filterPaneRight}>
+                    <div className={styles.fixedContainer}>
+                        <FilterWindow filterName={'Actions'}
+                                      renderComponent={<Button variant="outline-primary" className="btn-block"
+                                                               onClick={props.postsStartCreatingNewPost}>Post a
+                                          job</Button>}/>
+                    </div>
                 </Col>
             </Row>
 
@@ -47,7 +53,9 @@ const JobsPage = (props: JobsPageProps) => {
     );
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    postsStartCreatingNewPost,
+};
 
 const mapStateToProps = (state: any) => {
     return {

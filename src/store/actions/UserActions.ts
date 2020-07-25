@@ -2,8 +2,9 @@ import { UserActionType } from '../types/UserActionType';
 import RequestsService from '../../services/RequestsService';
 import TokenService from '../../services/TokenService';
 import { SignInData, SignUpData } from '../../utils/types/User';
-import { history } from '../../App';
+import { history } from '../../services/HistoryService';
 import DateTimeService from '../../services/DateTimeService';
+import { IAction } from '../../utils/types/Store';
 
 
 export const userSignIn = (signInData: SignInData) => {
@@ -15,18 +16,16 @@ export const userSignIn = (signInData: SignInData) => {
             getState().user.authMessage && dispatch(userUnsetAuthMessage());
             dispatch({ type: UserActionType.SIGN_IN });
         } catch ( e ) {
-            dispatch(userSetAuthMessage(e.response?.data?.message));
+            dispatch(userSetAuthMessage(e.response?.data?.message || 'Connection error'));
         }
     };
 };
 
 
-export const userSignOut = () => {
-    return async(dispatch: any) => {
-        TokenService.instance.clear();
-        dispatch({ type: UserActionType.SIGN_OUT });
-        history.push('/');
-    };
+export const userSignOut = (): IAction => {
+    TokenService.instance.clear();
+    history.push('/');
+    return { type: UserActionType.SIGN_OUT };
 };
 
 
@@ -39,7 +38,7 @@ export const userSignUp = (signUpData: SignUpData) => {
             dispatch({ type: UserActionType.SIGN_IN });
             getState().user.authMessage && dispatch(userUnsetAuthMessage());
         } catch ( e ) {
-            dispatch(userSetAuthMessage(e.response?.data?.message));
+            dispatch(userSetAuthMessage(e.response?.data?.message || 'Connection error'));
         }
     };
 };

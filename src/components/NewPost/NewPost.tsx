@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { postsCancelCreatingNewPost, postsSubmitNewPost } from '../../store/actions/PostsActions';
 import Divider from '@material-ui/core/Divider';
 import Form from 'react-bootstrap/Form';
+import styles from './NewPost.module.scss'
 
 
 interface NewPostProps {
@@ -28,7 +29,7 @@ const NewPost = (props: NewPostProps) => {
     };
 
     return (
-        <div className="d-flex flex-column">
+        <div className={styles.newPostContainer}>
             <div className="my-2">
                 Create new job request
             </div>
