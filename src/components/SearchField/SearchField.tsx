@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './SearchField.module.scss';
 import { connect } from 'react-redux';
-import { postsSearchPostsByTitle } from '../../store/actions/PostsActions';
+import { postsFetchPostsByTitle } from '../../store/actions/PostsActions';
 
 
 const SearchField = (props:any) => {
@@ -15,7 +15,7 @@ const SearchField = (props:any) => {
 
 
 const mapDispatchToProps = {
-    postsSearchPostsByTitle
+    postsSearchPostsByTitle: postsFetchPostsByTitle
 }
 
 export default connect(null ,mapDispatchToProps)(SearchField);

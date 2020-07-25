@@ -28,19 +28,13 @@ export const postsSubmitNewPost = (postData: any) => {
     };
 };
 
-export const postsFetchPosts = () => {
-    return async(dispatch: any, getState: any) => {
+export const postsFetchPosts = (page: number) => {
+    return async(dispatch: any) => {
         try {
-            const state = getState()
             const params: any = TokenService.instance.getAuthentication();
-            const page = state.posts.currentPage
-            params.params = { page }
+            params.params = { page };
             const { data } = await RequestsService.get('/posts', params);
-
-            console.log(data)
-
-            dispatch({ type: PostsActionType.SET_POSTS_PAGE, payload: { page: page + 1, hasNext: !data.posts.last } });
-            dispatch({ type: PostsActionType.FETCH_POSTS, payload: data.posts.content });
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: { data: data.posts.content, hasNext: !data.posts.last }});
         } catch ( e ) {
             console.log('erorr fetching posts');
         }
@@ -48,21 +42,22 @@ export const postsFetchPosts = () => {
 };
 
 
-export const postsSearchPostsByTitle = (title: string) => {
-    return async(dispatch: any, getState: any) => {
+export const postsFetchPostsByTitle = (title: string, page: number) => {
+    return async(dispatch: any) => {
         try {
-            const state = getState()
             let params: any = TokenService.instance.getAuthentication();
-            const page = state.posts.currentPage
-            params.params = { title, page }
+            params.params = { title, page };
             const { data } = await RequestsService.get('/posts', params);
-
-            console.log(params);
-
-            dispatch({ type: PostsActionType.SET_POSTS_PAGE, payload: { page: page + 1, hasNext: !data.posts.last } });
-            dispatch({ type: PostsActionType.FETCH_POSTS, payload: data.posts.content });
+            dispatch({ type: PostsActionType.FETCH_POSTS, payload: { data: data.posts.content } });
         } catch ( e ) {
             console.log('erorr fetching posts');
         }
+    };
+};
+
+
+export const setCurrentPage = (page: number) => {
+    return {
+        type: PostsActionType.SET_POSTS_PAGE, payload: page,
     };
 };
