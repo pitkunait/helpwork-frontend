@@ -8,10 +8,4 @@ const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
 const middleware = applyMiddleware(thunk, logger);
 const store = createStore(rootReducer, composeEnhancers(middleware));
 
-// export * from './reducers/RootReducer';
-// export * from './reducers/UserReducer';
-// export * from './reducers/AppReducer';
-// export * from './reducers/PostsReducer';
-
-
 export default store;

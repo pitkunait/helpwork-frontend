@@ -8,6 +8,7 @@ interface PostState {
     posts: IPost[]
     currentPage: number
     hasNextPage: boolean
+    searchTitle: string
 }
 
 
@@ -15,7 +16,8 @@ const initialState: PostState = {
     creatingNewPost: false,
     posts: [],
     currentPage: 0,
-    hasNextPage: true
+    hasNextPage: true,
+    searchTitle: ''
 };
 
 export const postsReducer: Reducer<PostState> = (state = initialState, action: IAction) => {
@@ -23,7 +25,9 @@ export const postsReducer: Reducer<PostState> = (state = initialState, action: I
         default:
             return state;
         case PostsActionType.FETCH_POSTS:
-            return { ...state, posts: state.posts.concat(action.payload.data), hasNextPage:action.payload.hasNext };
+            return { ...state, posts: state.posts.concat(action.payload.data), hasNextPage: action.payload.hasNext };
+        case PostsActionType.RESET_POSTS:
+            return { ...state, posts: [], hasNextPage: true };
         case PostsActionType.START_CREATING_NEW_POST:
             return { ...state, creatingNewPost: true };
         case PostsActionType.CANCEL_CREATING_NEW_POST:
@@ -32,5 +36,8 @@ export const postsReducer: Reducer<PostState> = (state = initialState, action: I
             return { ...state };
         case PostsActionType.SET_POSTS_PAGE:
             return { ...state, currentPage: action.payload };
+        case PostsActionType.SET_SEARCH_TITLE:
+            return { ...state, searchTitle: action.payload };
+
     }
 };

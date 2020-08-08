@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Post from '../Post/Post';
 import { connect } from 'react-redux';
-import { postsFetchPosts, postsStartCreatingNewPost, setCurrentPage } from '../../store/actions/PostsActions';
+import { postsFetchPosts, postsResetPosts, postsSetCurrentPage } from '../../store/actions/PostsActions';
 import { IPost } from '../../utils/types/Posts';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import styles from './JobsList.module.scss'
+import styles from './JobsList.module.scss';
+import { WholePageSpinner } from '../Spinner/Spinner';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 interface JobsListProps {
     posts: IPost[]
-    postsStartCreatingNewPost: () => void
-    setCurrentPage: any
+    postsSetCurrentPage: any
     postsFetchPosts: any
+    postsResetPosts: any
     hasNextPage: boolean
     currentPage: number
 }
@@ -18,63 +20,69 @@ interface JobsListProps {
 
 const JobsList = (props: JobsListProps) => {
 
-    const {setCurrentPage, currentPage, hasNextPage, posts, postsStartCreatingNewPost, postsFetchPosts } = props;
-    useEffect(() => {
-        postsFetchPosts(0);
-        setCurrentPage(0)
-        }, [postsFetchPosts]);
+    const {postsResetPosts, postsSetCurrentPage, currentPage, hasNextPage, posts, postsFetchPosts } = props;
+
+    const loadNewPosts = useCallback(() => {
+        postsResetPosts()
+        postsSetCurrentPage(0)
+        postsFetchPosts(0)
+    }, [postsFetchPosts, postsSetCurrentPage, postsResetPosts])
+
+    useEffect(loadNewPosts, [loadNewPosts]);
 
     const fetchData = () => {
-        const nextPage = currentPage + 1
-        postsFetchPosts(nextPage)
-        setCurrentPage(nextPage)
-    }
+        const nextPage = currentPage + 1;
+        postsFetchPosts(nextPage);
+        postsSetCurrentPage(nextPage);
+    };
 
 
-    console.log(posts);
     return (
         <div className={styles.jobsList}>
             <InfiniteScroll
                 dataLength={posts.length} //This is important field to render the next data
                 next={fetchData}
                 hasMore={hasNextPage}
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                    <p style={{textAlign: 'center'}}>
-                        <b>Yay! You have seen it all</b>
-                    </p>
-                }
+                loader={   <div style={{ padding: 10 }}>
+                    <WholePageSpinner/>
+                </div>}
+                endMessage={<div style={{padding:10}}/>}
 
                 // below props only if you need pull down functionality
-                // refreshFunction={() => {}}
-                // pullDownToRefresh
-                // pullDownToRefreshContent={
-                //     <WholePageSpinner/>
-                // }
-                // releaseToRefreshContent={
-                //     <h3 style={{textAlign: 'center'}}>&#8593; Release to refresh</h3>}
+                refreshFunction={loadNewPosts}
+                pullDownToRefresh
+                pullDownToRefreshThreshold={80}
+                pullDownToRefreshContent={
+                    <div style={{ padding: 10, textAlign:'center'}}>
+                        Refresh<br/>
+                        <ArrowDownwardIcon/>
+                    </div>
+
+                }
+                releaseToRefreshContent={<WholePageSpinner/>}
             >
-                <div style={{padding:"0 20px"}}>
-                {posts.map((post, index) => <Post {...post} key={index}/>)}
-            </div>
+                <div style={{ padding: '0 20px' }}>
+                    {posts.map((post, index) => <Post {...post} key={index}/>)}
+                </div>
 
             </InfiniteScroll>
+
 
         </div>
     );
 };
 
 const mapDispatchToProps = {
-    postsStartCreatingNewPost,
     postsFetchPosts,
-    setCurrentPage
+    postsSetCurrentPage,
+    postsResetPosts,
 };
 
 const mapStateToProps = (state: any) => {
     return {
         posts: state.posts.posts,
         hasNextPage: state.posts.hasNextPage,
-        currentPage: state.posts.currentPage
+        currentPage: state.posts.currentPage,
     };
 };
 

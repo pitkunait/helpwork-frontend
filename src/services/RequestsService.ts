@@ -1,6 +1,5 @@
 import axios from 'axios';
 import TokenService from './TokenService';
-import { useDispatch } from 'react-redux';
 import { userSignOut } from '../store/actions/UserActions';
 import store from '../store';
 
